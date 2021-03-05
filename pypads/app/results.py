@@ -357,6 +357,16 @@ class PyPadsResults(IResults):
             if not bool(row):
                 continue
 
+            sum = 0.0
+            n = 0
+            for v in row.values():
+                sum += v.created_at
+                n += 1
+            avg = 0.0
+            if n != 0:
+                avg = sum / n
+            row["created_at"] = avg
+
             index = row.keys()
             data = row.values()
             run_series = Series(data=[v for v in data], index=index, name=run_id)
