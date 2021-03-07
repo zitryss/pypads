@@ -360,8 +360,15 @@ class PyPadsResults(IResults):
             sum = 0.0
             n = 0
             for v in row.values():
-                sum += v.created_at
-                n += 1
+                if hasattr(v, "created_at"):
+                    sum += v.created_at
+                    n += 1
+                    continue
+                if isinstance(v, list):
+                    for i in v:
+                        if hasattr(i, "created_at"):
+                            sum += i.created_at
+                            n += 1
             avg = 0.0
             if n != 0:
                 avg = sum / n
